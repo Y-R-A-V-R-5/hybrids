@@ -1,6 +1,7 @@
 # 🧠 YOLO-Tweaks: Backbone–Head Hybrid Compatibility Experiments Across YOLOv8 / YOLOv10 / YOLOv11  
 🚀 **Personal Research Project (Independent Study)**  
-📍 *Exploring structural compatibility, scaling behavior, and performance trade-offs across YOLO architectures.*
+📍 *Studying backbone–head compatibility and system-level performance trade-offs across YOLO architectures under CPU and tiny-object constraints.*
+
 
 ---
 
@@ -345,8 +346,15 @@ This project demonstrates a transition from *model usage* to **architectural rea
 
 ### ⚡ README Snapshot Summary
 
-> *“YOLO-Tweaks” demonstrates how a hands-on learner can dissect and recombine architectures across model generations — moving from training usage to genuine architectural experimentation.*
-> > *This repository demonstrates architectural literacy, experimental thinking, and hands-on model engineering — transitioning from model usage to genuine structural exploration.*
+> **YOLO-Tweaks** treats YOLO architectures as **modular systems rather than fixed models**, experimentally validating how backbone–head compatibility impacts accuracy, efficiency, and real CPU inference latency.
+>
+> By hybridizing components across YOLOv8, YOLOv10, and YOLOv11 under **tiny-object and CPU-only constraints**, this repository demonstrates:
+> - why FLOPs and parameter count are unreliable proxies for CPU performance,
+> - how detection head design dominates tiny-object accuracy,
+> - and when architectural hybridization is worth deploying — and when it is not.
+>
+> This work reflects a transition from *model usage* to **architecture-level reasoning and system-aware decision making**.
+
 
 
 
