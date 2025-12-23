@@ -6,16 +6,20 @@
 
 ## 🎯 Overview
 
-This project investigates whether mixing and matching **backbones** and **detection heads** across three YOLO generations can produce architectures that are:
+This project treats YOLO architectures **not as fixed models**, but as **modular systems** composed of interchangeable backbones, necks, and detection heads.
 
-- More efficient  
-- More accurate  
-- Better specialized for tiny-object detection  
-- Better balanced between compute and mAP  
+Instead of asking *“Which YOLO version is best?”*, this study asks:
 
-Instead of treating YOLO versions as fixed models, this work approaches them as **modular systems**—where backbones, necks, and heads can be recombined to form new hybrids.
+> **What happens when architectural components optimized for different design goals are recombined under CPU and tiny-object constraints?**
 
-All experiments were run on the **AgriPest** tiny-insect dataset.
+By hybridizing backbones and heads across **YOLOv8, YOLOv10, and YOLOv11**, this work evaluates how:
+- dense vs. efficiency-oriented heads,
+- modern lightweight backbones, and
+- architectural memory-access patterns
+
+affect **accuracy, stability, and real CPU inference latency** on a fine-grained tiny-object dataset (AgriPest).
+
+The goal is not SOTA performance, but **architectural understanding and deployment-relevant decisions**.
 
 ---
 
@@ -105,6 +109,23 @@ AgriPest/
 ```
 
 ---
+
+## 🧠 System-Level Framing
+
+All experiments are conducted under the following **explicit constraints**:
+
+- **CPU-only training and inference**
+- **Small-object-dominant dataset**
+- **Batch sizes typical of deployment**
+- **Latency variance matters as much as mean latency**
+
+As a result, this study prioritizes:
+- real inference time over theoretical FLOPs,
+- memory-access behavior over parameter count,
+- and architectural stability over marginal mAP gains.
+
+This framing intentionally de-emphasizes GPU-centric assumptions common in YOLO benchmarks.
+
 ---
 
 ## 🧮 Model Complexity
@@ -235,6 +256,56 @@ This heatmap shows the Pearson correlation coefficient between all performance a
 
 ---
 
+## 🧭 Deployment-Oriented Decisions (Hard Conclusions)
+
+This section translates experimental results into **actionable engineering decisions**.
+
+### Decision 1 — CPU Tiny-Object Default
+For CPU-only deployment on tiny-object datasets, **YOLOv8 remains the safest default choice**, despite having the highest parameter count.
+
+**Why:**
+- Dense PAN-style head preserves fine-grained spatial information
+- Kernel execution and memory access are better optimized for CPU
+- FLOPs and parameter count fail to predict real latency behavior
+
+---
+
+### Decision 2 — Only One Hybrid Is Worth Using
+Among all hybrids tested, **v10v11 (YOLOv10 Backbone + YOLOv11 Head)** is the **only hybrid that justifies its existence**.
+
+**Why:**
+- Achieves ~99% of YOLOv8 mAP50
+- Uses **~30% fewer parameters**
+- Suitable when memory footprint matters more than raw inference speed
+
+---
+
+### Decision 3 — FLOPs and Params Are Misleading for CPU
+**Do not select YOLO models based on FLOPs or parameter count alone** for CPU deployment.
+
+This experiment shows:
+- Strong **negative correlation** between parameter count and CPU inference latency
+- Models with *more parameters* can be *faster* due to architectural and kernel-level effects
+
+---
+
+### Decision 4 — Head Design Dominates Tiny-Object Performance
+For tiny-object detection:
+- **Dense, simple heads (YOLOv8-style)** outperform
+- Decoupled, efficiency-optimized heads (v10/v11) underperform
+
+Head design influences fine-detail preservation **more than backbone depth** in this regime.
+
+---
+
+### Decision 5 — What NOT to Do
+- Do not assume newer YOLO versions are better for all datasets
+- Do not trust FLOPs-based efficiency claims for CPU inference
+- Do not hybridize architectures without validating real latency
+
+
+---
+
 ## 🔮 Future Work
 
 1.  **Investigate the $\text{Params}-\text{Inference}$ Discrepancy:** Perform detailed profiling (e.g., PyTorch profiler) to pinpoint the architectural or operational causes of the highly negative correlation between parameter count and CPU inference time.
@@ -246,9 +317,13 @@ This heatmap shows the Pearson correlation coefficient between all performance a
 
 ## 📚 Key Takeaways
 
-* **Architectural Literacy** $\rightarrow$ Understanding YOLO internals beyond API usage.
-* **Feature-Head Synergy** $\rightarrow$ The **v10v11** hybrid proves that mixing generations can preserve high accuracy with reduced theoretical compute.
-* **Efficiency-Accuracy Trade-off** $\rightarrow$ Lower GFLOPs/Params **do not necessarily** equate to lower $\text{mAP}$ or faster real-world inference; architectural and memory-access optimizations are paramount for latency.
+- **YOLO architectures should be treated as modular systems**, not immutable models.
+- **Backbone–head compatibility matters more than version numbers**.
+- **FLOPs and parameter count are poor proxies for CPU inference latency**.
+- **Dense detection heads outperform efficiency-optimized heads** on tiny-object datasets.
+- Hybrid architectures can be valuable — but only when validated against **real system constraints**.
+
+This project demonstrates a transition from *model usage* to **architectural reasoning and system-level decision making**.
 
 ---
 
@@ -272,5 +347,6 @@ This heatmap shows the Pearson correlation coefficient between all performance a
 
 > *“YOLO-Tweaks” demonstrates how a hands-on learner can dissect and recombine architectures across model generations — moving from training usage to genuine architectural experimentation.*
 > > *This repository demonstrates architectural literacy, experimental thinking, and hands-on model engineering — transitioning from model usage to genuine structural exploration.*
+
 
 
