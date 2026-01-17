@@ -1,4 +1,4 @@
-# 🧠 YOLO-Tweaks: Backbone–Head Hybrid Compatibility Experiments Across YOLOv8 / YOLOv10 / YOLOv11  
+# 🧠 Hybrids: Backbone–Head Hybrid Compatibility Experiments Across YOLOv8 / YOLOv10 / YOLOv11  
 🚀 **Personal Research Project (Independent Study)**  
 📍 *Studying backbone–head compatibility and system-level performance trade-offs across YOLO architectures under CPU and tiny-object constraints.*
 
@@ -331,7 +331,7 @@ This project demonstrates a transition from *model usage* to **architectural rea
 ## 🧾 Author
 
 **Y. R. A. V. R** — Hyderabad, India
-🔗 [LinkedIn](https://www.linkedin.com/in/yravr/) | [GitHub](https://github.com/Y-R-A-V-R-5/YOLO-TWEAKS)
+🔗 [LinkedIn](https://www.linkedin.com/in/yravr/) | [GitHub](https://github.com/Y-R-A-V-R-5/hybrids)
 
 ---
 
@@ -354,6 +354,7 @@ This project demonstrates a transition from *model usage* to **architectural rea
 > - and when architectural hybridization is worth deploying — and when it is not.
 >
 > This work reflects a transition from *model usage* to **architecture-level reasoning and system-aware decision making**.
+
 
 
 
