@@ -1,4 +1,4 @@
-# 🧠 YOLO-Tweaks: Backbone–Head Hybrid Compatibility Experiments Across YOLOv8 / YOLOv10 / YOLOv11
+# 🧠 Hybrids: Backbone–Head Hybrid Compatibility Experiments Across YOLOv8 / YOLOv10 / YOLOv11
 
 > **Project Status:** Complete | **Dataset:** AgriPest (Tiny-Object) | **Key Finding:** Hybrid **v10v11** achieves near-YOLOv8 accuracy with 32% fewer parameters.
 
